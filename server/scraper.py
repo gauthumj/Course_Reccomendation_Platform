@@ -14,7 +14,7 @@ import json
 def scraper(url: str, tag: str, sub_tag: str, identifier: dict, multiple: bool = False):
     user_agent = fake_useragent.UserAgent().random
     options = Options()
-    options.headless = True
+    # options.headless = True
     options.add_argument(argument=f'user-agent={user_agent}')
 
     driver = uc.Chrome(options=options)
@@ -43,7 +43,7 @@ def scraper(url: str, tag: str, sub_tag: str, identifier: dict, multiple: bool =
                     "title": str(title),
                     "description": str(description),
                     "image": str(image),
-                    "link": "udemy.com"+str(link) if "udemy" in url else str(link)
+                    "link": "udemy.com"+str(link) if "udemy" in url else "udacity.com" + str(link) if "udacity" in url else str(link)
                 })
             except Exception as e:
                 # print(e)
