@@ -1,26 +1,22 @@
 from scraper import scraper
 import atexit
-from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import flask
 import json
 
-
-cron = Scheduler(daemon=True)
-cron.start()
-
+scheduler = BackgroundScheduler()
 # Run scraper every 24 hours
 
 
-@cron.interval_schedule(hours=24)
 def job_function():
     udacity = scraper("https://www.udacity.com/courses/all", tag="ul",
                       sub_tag="li", identifier={"data-testid": "catalog-card-list"})
     with open("udacity.json", "w") as f:
         f.write(json.dumps(udacity))
-    coursera = scraper("https://www.coursera.org/courses", tag="ul",
-                       sub_tag="li", identifier={"class": "cds-9 ais-InfiniteHits-list css-0 cds-10"})
-    with open("coursera.json", "w") as f:
-        f.write(json.dumps(coursera))
+    # coursera = scraper("https://www.coursera.org/courses", tag="ul",
+    #                    sub_tag="li", identifier={"class": "cds-9 ais-InfiniteHits-list css-0 cds-10"})
+    # with open("coursera.json", "w") as f:
+    #     f.write(json.dumps(coursera))
     udemy = scraper("https://www.udemy.com/courses/development/?p=1",
                     tag="div", sub_tag="div", identifier={"class": "course-list--container--3zXPS"}, multiple=True)
     with open("udemy.json", "w") as f:
@@ -31,6 +27,9 @@ def job_function():
         f.write(json.dumps(skillshare))
 
 
+scheduler.add_job(func=job_function, trigger="interval", hours=24)
+
+
 app = flask.Flask(__name__)
 
 
@@ -39,9 +38,11 @@ def courses():
     plat = flask.request.args.get('platform')
     match plat:
         case "udacity":
-            res = json.loads(open("udacity.json", "r").read())
-        case "coursera":
-            res = json.loads(open("coursera.json", "r").read())
+            res = json.loads(open("server/udacity.json", "r").read())
+        case "udemy":
+            res = json.loads(open("server/udemy.json", "r").read())
+        case "skillshare":
+            res = json.loads(open("server/skillshare.json", "r").read())
         case default:
             return "invalid input"
     return flask.jsonify(res)
