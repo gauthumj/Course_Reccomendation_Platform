@@ -12,10 +12,9 @@ import json
 
 
 def scraper(url: str, tag: str, sub_tag: str, identifier: dict, multiple: bool = False):
-    # user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59'
     user_agent = fake_useragent.UserAgent().random
     options = webdriver.ChromeOptions()
-    options.headless = True
+    # options.headless = True
     options.add_argument(argument=f'user-agent={user_agent}')
     # driver = webdriver.Chrome(ChromeDriverManager().install())
     # options.add_argument("start-maximised")
@@ -36,10 +35,11 @@ def scraper(url: str, tag: str, sub_tag: str, identifier: dict, multiple: bool =
         for card in cards:
             try:
                 title = card.find("h2").text if card.find(
-                    "h2") else card.find("h3").text
+                    "h2") else card.find("h3").text if card.find("h3") else card.find("p").text
                 description = card.find("p").text
                 link = card.find("a")["href"]
-                image = card.find("img")["src"]
+                image = card.find("img")["src"] if card.find(
+                    "img") else card.find("span")["style"].split("url(")[1].split(")")[0]
 
                 data.append({
                     "title": str(title),
@@ -48,7 +48,7 @@ def scraper(url: str, tag: str, sub_tag: str, identifier: dict, multiple: bool =
                     "link": "udemy.com"+str(link) if "udemy" in url else str(link)
                 })
             except Exception as e:
-                print(data)
+                # print(e)
                 pass
     if multiple:
         for i in range(1, 5):
@@ -76,6 +76,7 @@ if __name__ == '__main__':
         case "coursera":  # not working
             res = scraper("https://www.coursera.org/courses", tag="ul",
                           sub_tag="li", identifier={"class": "cds-9 ais-InfiniteHits-list css-0 cds-10"})
+            print(res)
         case "udemy":
             res = scraper("https://www.udemy.com/courses/development/?p=1",
                           tag="div", sub_tag="div", identifier={"class": "course-list--container--3zXPS"}, multiple=True)
@@ -83,7 +84,9 @@ if __name__ == '__main__':
                 f.write(json.dumps(res))
         case "skillshare":
             res = scraper("https://www.skillshare.com/en/browse?sort=popular&page=1",
-                          tag="div", sub_tag="div", identifier={"class": "MuiGrid-root MuiGrid-container"})
+                          tag="div", sub_tag="div", identifier={"class": "MuiGrid-root MuiGrid-container"}, multiple=True)
+            with open("./skillshare.json", "w") as f:
+                f.write(json.dumps(res))
         case default:
             print("invalid input")
 
