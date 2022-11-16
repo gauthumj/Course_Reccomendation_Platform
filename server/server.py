@@ -38,11 +38,11 @@ def courses():
     plat = flask.request.args.get('platform')
     match plat:
         case "udacity":
-            res = json.loads(open("server/udacity.json", "r").read())
+            res = json.loads(open("./udacity.json", "r").read())
         case "udemy":
-            res = json.loads(open("server/udemy.json", "r").read())
+            res = json.loads(open("./udemy.json", "r").read())
         case "skillshare":
-            res = json.loads(open("server/skillshare.json", "r").read())
+            res = json.loads(open("./skillshare.json", "r").read())
         case default:
             return "invalid input"
     return flask.jsonify(res)

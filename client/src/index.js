@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+// eslint-disable-next-line
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Navbarmain from './Navbar.jsx';
+import Home from './home.js';
+import Login from './login.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Signup from './signup.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    {/* <Navbarmain />
+    <Home /> */}
     <App />
   </React.StrictMode>
 );
