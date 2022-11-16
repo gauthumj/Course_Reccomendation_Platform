@@ -2,6 +2,9 @@ from scraper import scraper
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 import flask
+from flask_cors import CORS, cross_origin
+import pymongo
+from bson import json_util
 import json
 
 scheduler = BackgroundScheduler()
@@ -31,21 +34,34 @@ scheduler.add_job(func=job_function, trigger="interval", hours=24)
 
 
 app = flask.Flask(__name__)
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
+
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+db = client["course_reccomendation"]
 
 
 @app.route('/')
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def courses():
     plat = flask.request.args.get('platform')
     match plat:
         case "udacity":
-            res = json.loads(open("server/udacity.json", "r").read())
+            udacity_collection = db["Udacity"]
+            res = list(udacity_collection.find({}))
+
         case "udemy":
-            res = json.loads(open("server/udemy.json", "r").read())
+            udemy_collection = db["Udemy"]
+            res = list(udemy_collection.find({}))
+
         case "skillshare":
-            res = json.loads(open("server/skillshare.json", "r").read())
+            skillshare_collection = db["Skillshare"]
+            res = list(skillshare_collection.find({}))
+
         case default:
             return "invalid input"
-    return flask.jsonify(res)
+    return flask.jsonify(json.loads(json_util.dumps(res)))
 
 
 if __name__ == '__main__':
