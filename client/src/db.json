@@ -1,3 +1,34 @@
 {
-    "users": []
+  "users": [
+    {
+      "email": "cadittya@gmail.com",
+      "password": "$2a$10$3C4T9N5crBv/WGjOma.4c.FQsM/TwANxq3Hx/8C63A/JYXwLjKKdq",
+      "Fname": "Adittya C",
+      "id": 1
+    },
+    {
+      "email": "adittya.c2019@vitstudent.ac.in",
+      "password": "$2a$10$hjjzlnWHe48dkl2Y17oXeeDjUM.YZdiZIWX3qo2ZQ54MmXGYMRI9y",
+      "Fname": "Adittya C",
+      "id": 2
+    },
+    {
+      "email": "prasanthc110964@gmail.com",
+      "password": "$2a$10$OqGCeVIfJom3kaC4k5P6t.rKgs05Qdj9a9NWpLkpN2aly3e.z.HWK",
+      "Fname": "Prasanth C",
+      "id": 3
+    },
+    {
+      "email": "riptide3008@gmail.com",
+      "password": "$2a$10$PQ887C5d3/vbws6rg42o2ulg14JgGrxuLfuMJ2ecGUm9PbB40llBe",
+      "Fname": "Gauthum J",
+      "id": 4
+    },
+    {
+      "email": "random@random.com",
+      "password": "$2a$10$FBRllde9UwK0/zgD3iN0FOqnECFWqfV5K/U7nQloo8mLFSM6Ve/S6",
+      "Fname": "Random",
+      "id": 5
+    }
+  ]
 }

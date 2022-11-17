@@ -4,7 +4,7 @@ import Navbarmain from "./Navbar";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
-import edubg from "./Images/download_upscaled.jpg";
+import edubg from "./Images/bg_medium.jpg";
 import { AccordionContext, CardGroup } from "react-bootstrap";
 import udacity from "./Platforms/udacity";
 import udemy from "./Platforms/udemy";
@@ -18,16 +18,16 @@ import axios from "axios";
 
 const homestyle = {
   backgroundImage: `url(${edubg})`,
-
   height: "50vh",
   backgroundPosition: "center",
-  backgroundSize: "fill",
+  backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   paddingBottom: "10px",
   textAlign: "bottom",
 };
 const coursestyle = {
   paddingTop: "10px",
+  backgroundColor: "lightgrey",
 };
 const groups = {};
 const cardstyle = {
@@ -76,17 +76,20 @@ function Home() {
     {
       title: "0",
       link: udedata,
-      img: { udeimg },
+      img:
+        "https://raw.githubusercontent.com/gauthumj/Course_Reccomendation_Platform/main/client/src/Images/Udemy_logo.svg.png",
     },
     {
       title: "1",
       link: udadata,
-      img: { udaimg },
+      img:
+        "https://raw.githubusercontent.com/gauthumj/Course_Reccomendation_Platform/main/client/src/Images/Udacity_crop.jpg",
     },
     {
       title: "2",
       link: skldata,
-      img: { sklimg },
+      img:
+        "https://raw.githubusercontent.com/gauthumj/Course_Reccomendation_Platform/main/client/src/Images/skillshare.png",
     },
   ];
   return (
@@ -101,17 +104,25 @@ function Home() {
                     </p>
                 </header> */}
         <h2
-          className="position-absolute bottom-0 pb-2 ps-4"
-          style={{ fontWeight: "bold", color: "white" }}
+          className="position-absolute bottom-0 pb-2"
+          style={{
+            fontWeight: "bold",
+            fontSize: "50px",
+            color: "black",
+            paddingLeft: "65px",
+          }}
         >
           {" "}
           Let us learn something new{" "}
         </h2>
+        <br />
       </div>
-      <div className="courses" style={coursestyle}>
+
+      <div className="courses ps-3" style={coursestyle}>
         <h2>Platforms</h2>
         {/* <CardGroup style={groups}> */}
-        <Accordion>
+        <br />
+        <Accordion className="pe-5 ps-5 pb-5">
           {l.map((platform) => {
             return (
               <Platform

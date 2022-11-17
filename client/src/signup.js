@@ -9,8 +9,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function signupCard() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+  const [pwd, setPwd] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const signupURL = "http://localhost:3000/register";
@@ -23,23 +23,25 @@ function signupCard() {
     backgroundSize: "cover",
   };
   const handleSignup = async () => {
+    const userData = { email: mail, password: pwd, Fname: name };
     console.log("Hello");
+    // fetch(signupURL, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(userData),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
+
     await axios
-      .post(signupURL, {
-        params: {
-          email: email,
-          password: password,
-          name: name,
-          confirmPassword: confirmPassword,
-        },
+      .post(signupURL, userData)
+      .catch((err) => {
+        console.log(err);
       })
       .then((response) => {
         console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
+        navigate("/");
       });
-    navigate("/");
   };
   const titlestyle = {
     color: "black",
@@ -69,7 +71,7 @@ function signupCard() {
                 type="email"
                 placeholder="Email Address"
                 id="email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setMail(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicName">
@@ -84,7 +86,7 @@ function signupCard() {
                 type="password"
                 placeholder="Password"
                 id="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPwd(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPasswordCheck">
