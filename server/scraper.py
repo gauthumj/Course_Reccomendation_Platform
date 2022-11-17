@@ -69,7 +69,7 @@ if __name__ == '__main__':
         case "udacity":
             res = scraper("https://www.udacity.com/courses/all", tag="ul",
                           sub_tag="li", identifier={"data-testid": "catalog-card-list"})
-            with open("server/udacity.json", "w") as f:
+            with open("./udacity.json", "w") as f:
                 f.write(json.dumps(res))
         case "coursera":  # not working
             res = scraper("https://www.coursera.org/courses", tag="ul",
@@ -78,12 +78,16 @@ if __name__ == '__main__':
         case "udemy":
             res = scraper("https://www.udemy.com/courses/development/?p=1",
                           tag="div", sub_tag="div", identifier={"class": "course-list--container--3zXPS"}, multiple=True)
-            with open("server/udemy.json", "w") as f:
+            res = ({each['title']: each for each in res}.values())
+            res = list(res)
+            with open("./udemy.json", "w") as f:
                 f.write(json.dumps(res))
         case "skillshare":
             res = scraper("https://www.skillshare.com/en/browse?sort=popular&page=1",
                           tag="div", sub_tag="div", identifier={"class": "MuiGrid-root MuiGrid-container"}, multiple=True)
-            with open("server/skillshare.json", "w") as f:
+            res = ({each['title']: each for each in res}.values())
+            res = list(res)
+            with open("./skillshare.json", "w") as f:
                 f.write(json.dumps(res))
         case default:
             print("invalid input")
