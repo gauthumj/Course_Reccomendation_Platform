@@ -1,20 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Routes, 
-  Route,} from "react-router-dom";
-import Home from './home.js';
-import Login from './login.js';
-import Signup from './signup.js';
+import logo from "./logo.svg";
+import "./App.css";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+import Home from "./home.js";
+import Login from "./login.js";
+import Signup from "./signup.js";
 function App() {
   return (
-    <><Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Router>
       {/* <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
@@ -31,7 +36,7 @@ function App() {
             </a>
           </header>
         </div> */}
-      </>
+    </>
   );
 }
 

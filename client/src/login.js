@@ -7,22 +7,59 @@ import { Link } from "react-router-dom";
 import bg from "./Images/gradient.webp";
 import bboard from "./Images/download_upscaled.jpg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import db from "./db";
 function LoginCard() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const loginURL = "http://localhost:3000/login";
-  const handleLogin = () => {
+  const [mail, setMail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const loginURL = "http://localhost:3000/signin";
+  let navigate = useNavigate();
+  console.log(db.users);
+  const handleLogin = async () => {
     console.log("Hello");
-    useEffect(() => {
-      axios
-        .post(loginURL, null, { params: { email: email, password: password } })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    const userData = { email: mail, password: pwd };
+    // let flag = 0;
+    // for (var i = 0; i < db.users.length; i++) {
+    //   if (db.users[i].email === mail) {
+    //     flag = 1;
+    //     console.log("logged in");
+    //     navigate("/");
+    //   }
+    // }
+    // if (flag === 0) {
+    //   console.log("Invalid Credentials");
+    // }
+
+    // axios({
+    //   method: "post",
+    //   url: "http://localhost:3000/signin",
+    //   data: {
+    //     email: mail,
+    //     password: pwd,
+    //   },
+    // })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert(err.response.data);
+    //   })
+    //   .then((res) => {
+    //     if (res.statusText === "OK") {
+    //       navigate("/");
+    //     }
+    //   });
+
+    await axios
+      .post(loginURL, userData)
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data);
+      })
+      .then((res) => {
+        if (res.statusText === "OK") {
+          console.log(res);
+          navigate("/");
+        }
+      });
   };
 
   const titlestyle = {
@@ -92,7 +129,7 @@ function LoginCard() {
                   type="email"
                   placeholder="Email Address"
                   id="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setMail(e.target.value)}
                   style={formstyle}
                 />
               </Form.Group>
@@ -101,7 +138,7 @@ function LoginCard() {
                   type="password"
                   placeholder="Password"
                   id="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPwd(e.target.value)}
                   style={formstyle}
                 />
               </Form.Group>
@@ -115,7 +152,6 @@ function LoginCard() {
                 className="w-100"
                 style={submitstyle}
                 variant="warning"
-                type="submit"
               >
                 Login
               </Button>
